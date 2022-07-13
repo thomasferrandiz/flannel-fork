@@ -177,3 +177,33 @@ jobs:
           docker pull ${{ steps.meta.outputs.tags }}
           docker tag ${{ steps.meta.outputs.tags }} ${{ env.REPOSITORY }}:latest
           docker push ${{ env.REPOSITORY }}:latest
+
+  build-and-push-artifacts:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Go 1.x
+        uses: actions/setup-go@v2
+        with:
+          go-version: ${{ env.GO_VERSION }}
+
+      - name: go mod vendor
+        run: go mod vendor
+      
+      - name: Build release artifacts
+        run: make release
+
+      - name: Upload files to a GitHub release
+        uses: svenstaro/upload-release-action@2.3.0
+        with:
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+          file: dist/flanneld-*
+          tag: ${{ github.ref }}
+          overwrite: true
+          file_glob: true
