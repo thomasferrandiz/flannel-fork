@@ -196,6 +196,9 @@ jobs:
       - name: go mod vendor
         run: go mod vendor
       
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
       - name: Build release artifacts
         run: make release
 
