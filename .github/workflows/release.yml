@@ -208,4 +208,5 @@ jobs:
           files: |
             dist/flanneld-*
             dist/*.tar.gz
-          token: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.CUSTOM_GITHUB_TOKEN }}
