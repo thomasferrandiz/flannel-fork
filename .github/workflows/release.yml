@@ -181,7 +181,7 @@ jobs:
   build-and-push-artifacts:
     runs-on: ubuntu-latest
     permissions:
-      contents: read
+      contents: write
       packages: write
 
     steps:
